@@ -54,8 +54,8 @@ class FirstFragment : Fragment() {
 
         binding.button.setOnClickListener {
             var intent = Intent(Intent.ACTION_GET_CONTENT);
-            intent.type = "application/vnd.openxmlformats-"
-            startActivityForResult(Intent.createChooser(intent, "Pick a source"), REQUEST_XLS)
+            intent.type = "application/vnd.ms-excel"
+            startActivityForResult(intent, REQUEST_XLS)
 
         }
 
