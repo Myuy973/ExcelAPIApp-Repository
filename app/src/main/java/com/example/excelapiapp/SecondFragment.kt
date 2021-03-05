@@ -65,7 +65,7 @@ class SecondFragment : Fragment() {
 
         binding.quizStartButton.setOnClickListener {
             binding.quizVocabulary.visibility = View.VISIBLE
-            binding.choiceButtons.visibility = View.VISIBLE
+            binding.choiceScroll.visibility = View.VISIBLE
             binding.restQuestionCount.visibility = View.VISIBLE
             binding.quizStartButton.visibility = View.INVISIBLE
             quizSet()
