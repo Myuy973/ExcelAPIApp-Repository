@@ -21,8 +21,29 @@
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second">
 
+        <argument
+            android:name="sheetId"
+            app:argType="integer"
+            android:defaultValue="-1" />
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            android:id="@+id/action_SecondFragment_to_resultFragment"
+            app:destination="@id/resultFragment" >
+            <argument
+                android:name="totalCount"
+                android:defaultValue="-1" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.example.excelapiapp.ResultFragment"
+        android:label="@string/fragment_result"
+        tools:layout="@layout/fragment_result">
+        <action
+            android:id="@+id/action_resultFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+        <argument
+            android:name="totalCount"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
 </navigation>

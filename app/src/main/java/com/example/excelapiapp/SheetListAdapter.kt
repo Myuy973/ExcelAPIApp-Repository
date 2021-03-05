@@ -1,6 +1,7 @@
 package com.example.excelapiapp
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import io.realm.RealmList
 
 class SheetListAdapter(
-        private val sheetList: RealmList<String>
+        private val sheetList: List<String>
 ): RecyclerView.Adapter<SheetListAdapter.ViewHolder>() {
+
+    private var listener: ((Int?) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (Int?) -> Unit) {
+        this.listener = listener
+    }
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val sheetButton: Button = view.findViewById<Button>(R.id.sheetNameButton)
@@ -23,10 +30,13 @@ class SheetListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        Log.d("value", "sheetList: ${sheetList[position]}")
         holder.sheetButton.text = sheetList[position]
+        holder.sheetButton.setOnClickListener {
+            listener?.invoke(position)
+        }
     }
 
     override fun getItemCount(): Int = sheetList.size
-
 
 }

@@ -6,6 +6,8 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.excelapiapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -18,6 +20,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(findViewById(R.id.toolbar))
 
+        val naviController = findNavController(R.id.nav_host_fragment)
+        setupActionBarWithNavController(naviController)
+
     }
+
+    override fun onSupportNavigateUp()
+            = findNavController(R.id.nav_host_fragment).navigateUp()
 
 }
