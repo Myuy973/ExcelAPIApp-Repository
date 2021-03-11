@@ -14,6 +14,7 @@ import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmResults
 import io.realm.kotlin.where
+import kotlinx.coroutines.selects.select
 import org.bson.types.ObjectId
 
 class SecondFragment : Fragment() {
@@ -29,6 +30,11 @@ class SecondFragment : Fragment() {
     private var answerButtonName = ""
     private var sheetIndex = 0
     private var sheetDataSize = 0
+
+//    private var resultList: MutableList<List<String>> = mutableListOf()
+    private var resultList: MutableList<String> = mutableListOf()
+//    private var resultList_Sub: MutableList<String> = mutableListOf()
+    private var resultList_Sub: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,11 +86,23 @@ class SecondFragment : Fragment() {
 
     private fun quizSetandAnswerCount(buttonName: String) {
         if (answerButtonName == buttonName) correctAnswer++
+        var selectButtonChoice = ""
+        when(buttonName) {
+            "firstChoice" -> selectButtonChoice =  binding.firstChoice.text.toString()
+            "secondChoice" -> selectButtonChoice =  binding.secondChoice.text.toString()
+            "thirdChoice" -> selectButtonChoice =  binding.thirdChoice.text.toString()
+        }
+        resultList_Sub += ",${selectButtonChoice}"
+        resultList.add(resultList_Sub)
+        resultList_Sub = ""
+
         if (restQuestion > 10) {
             Log.d("value", "Quiz End, correntAnswer: $correctAnswer")
-            Log.e("value", "*******ERROR******")
+//            resultList.add(correctAnswer.toString())
+            Log.d("value", "resultList: $resultList")
+            val actionResult = (resultList).toTypedArray()
             val action =
-                SecondFragmentDirections.actionSecondFragmentToResultFragment(correctAnswer)
+                SecondFragmentDirections.actionSecondFragmentToResultFragment(actionResult, correctAnswer)
             findNavController().navigate(action)
 
             reset()
@@ -101,11 +119,20 @@ class SecondFragment : Fragment() {
 
         val randomNum = getRandom()
         val randomWord = getWordRandom(randomNum)
+        resultList_Sub += randomWord.vocabulary
+        resultList_Sub += ",${randomWord.description}"
 
         binding.quizVocabulary.text = randomWord.vocabulary
 
-        val choice1 = getWordRandom(getRandom()).description
-        val choice2 = getWordRandom(getRandom()).description
+        var choice1ID = 0L
+        var choice2ID = 0L
+        do {
+            choice1ID = getRandom()
+            choice2ID = getRandom()
+        } while (choice1ID == choice2ID || randomNum == choice2ID || randomNum == choice1ID)
+
+        val choice1 = getWordRandom(choice1ID).description
+        val choice2 = getWordRandom(choice2ID).description
         val answerChoice = randomWord.description
 
         answerButtonName = buttonRandomSet(listOf(choice1, choice2, answerChoice))

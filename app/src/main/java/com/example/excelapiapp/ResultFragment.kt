@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.excelapiapp.databinding.FragmentResultBinding
 import io.realm.Realm
 
@@ -17,7 +18,6 @@ class ResultFragment : Fragment() {
     private var _binding: FragmentResultBinding? = null
     private val binding get() = _binding!!
 
-//    private val args: SecondFragmentArgs by navArgs()
     private val args: ResultFragmentArgs by navArgs()
 
     private lateinit var realm: Realm
@@ -38,10 +38,19 @@ class ResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("value", "args.total: ${args.totalCount}")
-        Log.d("value", "args: ${args}")
+        var resultList: List<List<String>> = args.totalList.map {
+            it.split(",")
+        }
 
-        binding.resultText.text = "${args.totalCount} / 10\n正解！"
+        Log.d("value", "args.total: ${args.totalList}")
+        Log.d("value", "resultList: ${resultList}")
+
+        binding.resultText.text = "${args.totalScore} / 10\n正解！"
+        Log.d("value", "after resultList: ${resultList}")
+
+        binding.resultList.layoutManager = LinearLayoutManager(context)
+        val adapter = ResultListAdapter(resultList)
+        binding.resultList.adapter = adapter
 
         binding.returnSelectButton.setOnClickListener {
             findNavController().navigate(R.id.action_resultFragment_to_FirstFragment)

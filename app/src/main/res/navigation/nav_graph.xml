@@ -28,9 +28,8 @@
         <action
             android:id="@+id/action_SecondFragment_to_resultFragment"
             app:destination="@id/resultFragment" >
-            <argument
-                android:name="totalCount"
-                android:defaultValue="-1" />
+<!--            <argument-->
+<!--                android:name="totalCount" />-->
         </action>
     </fragment>
     <fragment
@@ -42,7 +41,10 @@
             android:id="@+id/action_resultFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
         <argument
-            android:name="totalCount"
+            android:name="totalList"
+            app:argType="string[]" />
+        <argument
+            android:name="totalScore"
             app:argType="integer"
             android:defaultValue="-1" />
     </fragment>

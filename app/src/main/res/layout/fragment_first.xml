@@ -9,8 +9,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sheetsRecyclerView"
         android:layout_width="0dp"
-        android:layout_height="400dp"
+        android:layout_height="500dp"
         android:layout_marginTop="120dp"
+        android:paddingLeft="@dimen/ButtonListPadding"
+        android:paddingRight="@dimen/ButtonListPadding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

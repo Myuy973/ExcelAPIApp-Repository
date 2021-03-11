@@ -31,16 +31,15 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="語彙おおおおおおおおおおおおおおおおおおおおおおおおおおおおお"
-        tools:visibility="visible" />
+        tools:text="語彙おおおおおおおおおおおおおおおおおおおおおおおおおおおおお" />
 
     <ScrollView
         android:id="@+id/choiceScroll"
         android:layout_width="0dp"
         android:layout_height="300dp"
         android:layout_marginBottom="32dp"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
+        android:paddingLeft="@dimen/ButtonListPadding"
+        android:paddingRight="@dimen/ButtonListPadding"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,20 +58,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:text="Button" />
+                android:text="Button"
+                android:textAlignment="viewStart" />
 
             <Button
                 android:id="@+id/secondChoice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:text="Button" />
+                android:text="Button"
+                android:textAlignment="viewStart" />
 
             <Button
                 android:id="@+id/thirdChoice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button2" />
+                android:text="Button2"
+                android:textAlignment="viewStart" />
 
         </LinearLayout>
     </ScrollView>

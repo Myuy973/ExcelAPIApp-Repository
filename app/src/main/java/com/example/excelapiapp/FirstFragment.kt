@@ -26,7 +26,8 @@ class FirstFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var realm: Realm
 
-    private var sheetNameList: RealmList<String> = RealmList<String>()
+//    private var sheetNameList: RealmList<String> = RealmList<String>()
+    private var sheetNameList: RealmList<String> = RealmList()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,8 +71,10 @@ class FirstFragment : Fragment() {
             // シートセレクト画面のボタン更新
             for (sheetIndex in 0 until wb.numberOfSheets) {
                 var sheetName = wb.getSheetAt(sheetIndex).sheetName
-                sheetNameList.add(sheetName)
-                Log.d("value", "sheet Name: ${sheetNameList[sheetIndex]}")
+                var contentNum = wb.getSheetAt(sheetIndex).lastRowNum
+                val sheetNameNum = "$sheetName,$contentNum"
+                sheetNameList.add(sheetNameNum)
+                Log.d("value", "sheet Name: ${sheetNameList}")
             }
             sheetChange()
 
@@ -108,7 +111,10 @@ class FirstFragment : Fragment() {
 
     private fun sheetRead() {
         try {
-            var sheetList = realm.where<DataStorage>().findFirst()?.sheetNameList as List<String>
+            var sheetList = realm
+                    .where<DataStorage>()
+                    .findFirst()
+                    ?.sheetNameList as List<String>
 //            Log.d("value", "sheetList: ${sheetList[0]}")
             binding.sheetsRecyclerView.layoutManager = LinearLayoutManager(context)
             val adapter = SheetListAdapter(sheetList)

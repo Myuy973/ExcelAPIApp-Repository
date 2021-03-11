@@ -30,8 +30,11 @@ class SheetListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.d("value", "sheetList: ${sheetList[position]}")
-        holder.sheetButton.text = sheetList[position]
+//        Log.d("value", "sheetList: ${sheetList[position]}")
+        val contentList = sheetList[position].split(",")
+        val sheetName = contentList[0]
+        val sheetNum = contentList[1]
+        holder.sheetButton.text = "$sheetName [$sheetNum]"
         holder.sheetButton.setOnClickListener {
             listener?.invoke(position)
         }
