@@ -1,14 +1,14 @@
 package com.example.excelapiapp
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
+import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.excelapiapp.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +22,9 @@ class MainActivity : AppCompatActivity() {
 
         val naviController = findNavController(R.id.nav_host_fragment)
         setupActionBarWithNavController(naviController)
+
+        ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), PackageManager.PERMISSION_GRANTED)
 
     }
 

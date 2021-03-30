@@ -16,6 +16,7 @@ import io.realm.RealmResults
 import io.realm.kotlin.where
 import kotlinx.coroutines.selects.select
 import org.bson.types.ObjectId
+import java.util.zip.DataFormatException
 
 class SecondFragment : Fragment() {
 
@@ -57,24 +58,37 @@ class SecondFragment : Fragment() {
             Log.d("value", "args.sheetId is -1L")
         }else {
             Log.d("value", "args.sheetId: ${args.sheetId}")
-            Log.d("value", "args: ${args}")
+            Log.d("value", "args: $args")
             sheetIndex = args.sheetId
 //            sheetIndex = 0
         }
         sheetDataSize = realm.where<Word>().equalTo("sheetIndex", sheetIndex).findAll().size
-        Log.d("value", "word data size: ${sheetDataSize}")
-        Log.d("value", "Second sheed Index: ${sheetIndex}")
+        Log.d("value", "word data size: $sheetDataSize")
+        Log.d("value", "Second sheet Index: $sheetIndex")
 
-//        for (i in 0 until sheetDataSize) {
-//            Log.d("value", "sheet Data: ${sheetData[i]?.vocabulary}")
-//        }
 
         binding.quizStartButton.setOnClickListener {
             binding.quizVocabulary.visibility = View.VISIBLE
             binding.choiceScroll.visibility = View.VISIBLE
             binding.restQuestionCount.visibility = View.VISIBLE
+            binding.textView.visibility = View.VISIBLE
             binding.quizStartButton.visibility = View.INVISIBLE
+            binding.toContentCreatePageButton.visibility = View.INVISIBLE
             quizSet()
+        }
+
+        binding.toContentCreatePageButton.setOnClickListener {
+            val allData = realm.where<DataStorage>().findFirst()
+            val filePath = allData?.filePath as String
+            val sheetName = allData
+                    .sheetNameList[sheetIndex]
+                    ?.split(",")
+                    ?.get(0) as String
+
+            Log.d("value", "filePath: $filePath, sheetName: $sheetName")
+            val action = SecondFragmentDirections
+                    .actionSecondFragmentToContentCreateFragment(filePath, sheetName)
+            findNavController().navigate(action)
         }
 
         binding.apply {
@@ -124,8 +138,8 @@ class SecondFragment : Fragment() {
 
         binding.quizVocabulary.text = randomWord.vocabulary
 
-        var choice1ID = 0L
-        var choice2ID = 0L
+        var choice1ID: Long
+        var choice2ID: Long
         do {
             choice1ID = getRandom()
             choice2ID = getRandom()
@@ -160,10 +174,13 @@ class SecondFragment : Fragment() {
     }
 
     private fun reset() {
-        restQuestion = 0
+        restQuestion = 1
         correctAnswer = 0
         answerButtonName = ""
         sheetIndex = 0
+        resultList = mutableListOf()
+        resultList_Sub = ""
+
         Log.d("value", "RESET CLEAR")
     }
 
@@ -184,5 +201,4 @@ class SecondFragment : Fragment() {
         super.onDestroy()
         realm.close()
     }
-
 }

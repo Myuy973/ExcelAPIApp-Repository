@@ -7,6 +7,7 @@ import io.realm.annotations.PrimaryKey
 open class DataStorage(
     @PrimaryKey
     var id: Long = 0,
-    var sheetNameList: RealmList<String> = RealmList()
+    var sheetNameList: RealmList<String> = RealmList(),
+    var filePath: String = ""
 
 ): RealmObject()

@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_fileSheetCreateFragment"
+            app:destination="@id/fileSheetCreateFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -31,6 +34,9 @@
 <!--            <argument-->
 <!--                android:name="totalCount" />-->
         </action>
+        <action
+            android:id="@+id/action_SecondFragment_to_contentCreateFragment"
+            app:destination="@id/contentCreateFragment" />
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
@@ -47,5 +53,30 @@
             android:name="totalScore"
             app:argType="integer"
             android:defaultValue="-1" />
+    </fragment>
+    <fragment
+        android:id="@+id/fileSheetCreateFragment"
+        android:name="com.example.excelapiapp.fileadd.FileSheetCreateFragment"
+        android:label="fragment_file_sheet_create"
+        tools:layout="@layout/fragment_file_sheet_create" >
+        <action
+            android:id="@+id/action_fileSheetCreateFragment_to_contentCreateFragment"
+            app:destination="@id/contentCreateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contentCreateFragment"
+        android:name="com.example.excelapiapp.fileadd.ContentCreateFragment"
+        android:label="ContentCreateFragment" >
+        <action
+            android:id="@+id/action_contentCreateFragment_to_FirstFragment2"
+            app:destination="@id/FirstFragment" />
+        <argument
+            android:name="FilePath"
+            app:argType="string"
+            android:defaultValue="filepatherror" />
+        <argument
+            android:name="SheetName"
+            app:argType="string"
+            android:defaultValue="sheeterror" />
     </fragment>
 </navigation>

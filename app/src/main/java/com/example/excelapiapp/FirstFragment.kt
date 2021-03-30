@@ -4,6 +4,7 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -49,9 +50,13 @@ class FirstFragment : Fragment() {
         sheetRead()
 
         binding.addFileFab.setOnClickListener() {
-            var intent = Intent(Intent.ACTION_GET_CONTENT);
+            val intent = Intent(Intent.ACTION_GET_CONTENT);
             intent.type = "application/vnd.ms-excel"
             startActivityForResult(intent, REQUEST_XLS)
+        }
+
+        binding.fileAdd.setOnClickListener {
+            findNavController().navigate(R.id.action_FirstFragment_to_fileSheetCreateFragment)
         }
 
 
@@ -68,15 +73,21 @@ class FirstFragment : Fragment() {
             val wb = WorkbookFactory.create(inputStream)
 //            val sheet = wb.getSheetAt(sheetIndex)
 
+            val pathBefore = Environment.getExternalStorageDirectory()
+            val pathAfter = data?.data?.path?.split(":")?.get(1)
+            val filePath = "${pathBefore}/${pathAfter}"
+            Log.d("value", "read file path: $filePath")
+
+
             // シートセレクト画面のボタン更新
             for (sheetIndex in 0 until wb.numberOfSheets) {
-                var sheetName = wb.getSheetAt(sheetIndex).sheetName
-                var contentNum = wb.getSheetAt(sheetIndex).lastRowNum
+                val sheetName = wb.getSheetAt(sheetIndex).sheetName
+                val contentNum = wb.getSheetAt(sheetIndex).lastRowNum + 1
                 val sheetNameNum = "$sheetName,$contentNum"
                 sheetNameList.add(sheetNameNum)
-                Log.d("value", "sheet Name: ${sheetNameList}")
+                Log.d("value", "sheet Name: $sheetNameList")
             }
-            sheetChange()
+            sheetChange(filePath)
 
             for (sheetIndex in 0 until wb.numberOfSheets) {
                 val sheet = wb.getSheetAt(sheetIndex)
@@ -96,9 +107,9 @@ class FirstFragment : Fragment() {
     private fun wordSet(sheet: Sheet, row: Int, sheetIndex: Int) {
         realm.executeTransaction { db: Realm ->
 
-            val maxId_word = db.where<Word>().max("id")
-            val nextId_word = (maxId_word?.toLong() ?: 0L) + 1L
-            val word = db.createObject<Word>(nextId_word)
+            val maxIdWord = db.where<Word>().max("id")
+            val nextIdWord = (maxIdWord?.toLong() ?: 0L) + 1L
+            val word = db.createObject<Word>(nextIdWord)
             word.sheetId = row.toLong()
             word.sheetIndex = sheetIndex
             word.vocabulary = sheet.getRow(row).getCell(0).stringCellValue
@@ -111,7 +122,7 @@ class FirstFragment : Fragment() {
 
     private fun sheetRead() {
         try {
-            var sheetList = realm
+            val sheetList = realm
                     .where<DataStorage>()
                     .findFirst()
                     ?.sheetNameList as List<String>
@@ -135,15 +146,15 @@ class FirstFragment : Fragment() {
 
     }
 
-    private fun sheetChange() {
+    private fun sheetChange(filePath: String) {
         realm.executeTransaction { db: Realm ->
 
-            val data_size = db.where<DataStorage>().findAll().size
-            Log.d("value", "size: $data_size")
-            if (data_size == 1) {
-                Log.d("value", "data_size - 1: ${data_size - 1}")
-                Log.d("value", "data_size - 1 db: ${db.where<DataStorage>().equalTo("id", data_size - 1)}")
-                db.where<DataStorage>().equalTo("id", data_size - 1)
+            val dataSize = db.where<DataStorage>().findAll().size
+            Log.d("value", "size: $dataSize")
+            if (dataSize == 1) {
+                Log.d("value", "dataSize - 1: ${dataSize - 1}")
+                Log.d("value", "dataSize - 1 db: ${db.where<DataStorage>().equalTo("id", dataSize - 1)}")
+                db.where<DataStorage>().equalTo("id", dataSize - 1)
                         ?.findFirst()
                         ?.deleteFromRealm()
 
@@ -152,6 +163,7 @@ class FirstFragment : Fragment() {
             }
             val data = db.createObject<DataStorage>(0)
             data.sheetNameList = sheetNameList
+            data.filePath = filePath
 
         }
     }

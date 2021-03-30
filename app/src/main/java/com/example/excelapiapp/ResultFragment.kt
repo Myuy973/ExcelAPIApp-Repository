@@ -38,15 +38,20 @@ class ResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var resultList: List<List<String>> = args.totalList.map {
+        val resultList: List<List<String>> = args.totalList.map {
             it.split(",")
         }
 
         Log.d("value", "args.total: ${args.totalList}")
-        Log.d("value", "resultList: ${resultList}")
+        Log.d("value", "resultList: $resultList")
 
-        binding.resultText.text = "${args.totalScore} / 10\n正解！"
-        Log.d("value", "after resultList: ${resultList}")
+        if (args.totalScore != -1) {
+            binding.resultText.text = "${args.totalScore} / 10\n正解！"
+        } else {
+            binding.resultText.text = "エラー"
+        }
+
+        Log.d("value", "after resultList: $resultList")
 
         binding.resultList.layoutManager = LinearLayoutManager(context)
         val adapter = ResultListAdapter(resultList)
