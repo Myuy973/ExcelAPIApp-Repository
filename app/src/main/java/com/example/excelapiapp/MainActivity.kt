@@ -1,6 +1,7 @@
 package com.example.excelapiapp
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,8 @@ import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.excelapiapp.databinding.ActivityMainBinding
+import io.realm.Realm
+import io.realm.RealmConfiguration
 
 
 class MainActivity : AppCompatActivity() {

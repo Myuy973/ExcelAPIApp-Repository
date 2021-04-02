@@ -26,13 +26,13 @@ class SheetAddAdapter(
         val removeButton: Button = view.findViewById<Button>(R.id.sheetRemoveButton)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SheetAddAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.sheetcard_layout, parent, false)
         return  ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: SheetAddAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.sheetName.text = sheetNameList[position]
         holder.removeButton.setOnClickListener {
 //             = sheetNameList.drop(position)

@@ -32,9 +32,7 @@ class SecondFragment : Fragment() {
     private var sheetIndex = 0
     private var sheetDataSize = 0
 
-//    private var resultList: MutableList<List<String>> = mutableListOf()
     private var resultList: MutableList<String> = mutableListOf()
-//    private var resultList_Sub: MutableList<String> = mutableListOf()
     private var resultList_Sub: String = ""
 
 
@@ -60,7 +58,6 @@ class SecondFragment : Fragment() {
             Log.d("value", "args.sheetId: ${args.sheetId}")
             Log.d("value", "args: $args")
             sheetIndex = args.sheetId
-//            sheetIndex = 0
         }
         sheetDataSize = realm.where<Word>().equalTo("sheetIndex", sheetIndex).findAll().size
         Log.d("value", "word data size: $sheetDataSize")
@@ -68,12 +65,14 @@ class SecondFragment : Fragment() {
 
 
         binding.quizStartButton.setOnClickListener {
-            binding.quizVocabulary.visibility = View.VISIBLE
-            binding.choiceScroll.visibility = View.VISIBLE
-            binding.restQuestionCount.visibility = View.VISIBLE
-            binding.textView.visibility = View.VISIBLE
-            binding.quizStartButton.visibility = View.INVISIBLE
-            binding.toContentCreatePageButton.visibility = View.INVISIBLE
+            binding.apply{
+                quizVocabulary.visibility = View.VISIBLE
+                choiceScroll.visibility = View.VISIBLE
+                restQuestionCount.visibility = View.VISIBLE
+                textView.visibility = View.VISIBLE
+                quizStartButton.visibility = View.INVISIBLE
+                toContentCreatePageButton.visibility = View.INVISIBLE
+            }
             quizSet()
         }
 
@@ -112,11 +111,10 @@ class SecondFragment : Fragment() {
 
         if (restQuestion > 10) {
             Log.d("value", "Quiz End, correntAnswer: $correctAnswer")
-//            resultList.add(correctAnswer.toString())
             Log.d("value", "resultList: $resultList")
             val actionResult = (resultList).toTypedArray()
-            val action =
-                SecondFragmentDirections.actionSecondFragmentToResultFragment(actionResult, correctAnswer)
+            val action = SecondFragmentDirections
+                        .actionSecondFragmentToResultFragment(actionResult, correctAnswer)
             findNavController().navigate(action)
 
             reset()

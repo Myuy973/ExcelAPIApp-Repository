@@ -10,7 +10,9 @@ class ExcelAPIApplication: Application() {
         super.onCreate()
         Realm.init(this)
         val config = RealmConfiguration.Builder()
-            .allowWritesOnUiThread(true).build()
+            .allowWritesOnUiThread(true)
+            .deleteRealmIfMigrationNeeded()
+            .build()
         Realm.setDefaultConfiguration(config)
     }
 

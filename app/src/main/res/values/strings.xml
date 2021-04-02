@@ -12,4 +12,6 @@
     <string name="first_fragment_label">Sheet Select</string>
     <string name="second_fragment_label">Question</string>
     <string name="fragment_result">Result</string>
+    <string name="file_sheet_create_fragment_label">File and Sheet Create</string>
+    <string name="content_create_fragment_label">Vocabulary Add</string>
 </resources>

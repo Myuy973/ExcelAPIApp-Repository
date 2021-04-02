@@ -57,8 +57,8 @@
     <fragment
         android:id="@+id/fileSheetCreateFragment"
         android:name="com.example.excelapiapp.fileadd.FileSheetCreateFragment"
-        android:label="fragment_file_sheet_create"
-        tools:layout="@layout/fragment_file_sheet_create" >
+        android:label="@string/file_sheet_create_fragment_label"
+        tools:layout="@layout/fragment_file_sheet_create">
         <action
             android:id="@+id/action_fileSheetCreateFragment_to_contentCreateFragment"
             app:destination="@id/contentCreateFragment" />
@@ -66,17 +66,17 @@
     <fragment
         android:id="@+id/contentCreateFragment"
         android:name="com.example.excelapiapp.fileadd.ContentCreateFragment"
-        android:label="ContentCreateFragment" >
+        android:label="@string/content_create_fragment_label">
         <action
             android:id="@+id/action_contentCreateFragment_to_FirstFragment2"
             app:destination="@id/FirstFragment" />
         <argument
             android:name="FilePath"
-            app:argType="string"
-            android:defaultValue="filepatherror" />
+            android:defaultValue="filepatherror"
+            app:argType="string" />
         <argument
             android:name="SheetName"
-            app:argType="string"
-            android:defaultValue="sheeterror" />
+            android:defaultValue="sheeterror"
+            app:argType="string" />
     </fragment>
 </navigation>
